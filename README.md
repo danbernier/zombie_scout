@@ -37,7 +37,7 @@ Long story short, don't bet your bonus on this just yet.
 
 - [x] switch from rake tasks to Thor app
 - [ ] version.rb
-- [ ] change to parser gem: http://rubygems.org/gems/parser
+- [x] change to parser gem: http://rubygems.org/gems/parser
 - [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
 - [ ] let users configure: files to search for methods, files to search for calls...
 
