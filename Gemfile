@@ -1,11 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'parser'
-gem 'thor'
+gem 'parser', '~> 2.1.4'
+gem 'thor', '~> 0.18'
 
 group :test do
   gem 'rspec'
   gem 'fakefs', require: 'fakefs/safe'
-  gem 'byebug'
 end
 
