@@ -1,7 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rspec'
 gem 'parser'
 gem 'thor'
 
-gem 'byebug'
+group :test do
+  gem 'rspec'
+  gem 'fakefs', require: 'fakefs/safe'
+  gem 'byebug'
+end
+
