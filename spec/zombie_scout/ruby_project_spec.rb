@@ -10,16 +10,22 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
     FileUtils.touch(path)
   end
 
-  it 'returns a RubySource for each *.rb under the root dir' do
-    files = [
-      'lib/ironman/jarvis.rb',
-      'lib/ironman/suit.rb',
-      'lib/ironman/tower.rb'
-    ]
+  context 'in a normal ruby project' do
+    it 'returns a RubySource for each *.rb under the lib dir' do
+      files = [
+        'lib/ironman/jarvis.rb',
+        'lib/ironman/suit.rb',
+        'spec/ironman/jarvis_spec.rb',
+        'test/ironman/test_suit.rb'
+      ]
 
-    files.each { |file| touch('ironman/' + file) }
+      files.each { |file| touch('ironman/' + file) }
 
-    sources = ZombieScout::RubyProject.new('ironman').ruby_sources
-    expect(sources.map(&:path)).to eq(files)
+      sources = ZombieScout::RubyProject.new('ironman').ruby_sources
+      expect(sources.map(&:path)).to eq [
+        'lib/ironman/jarvis.rb',
+        'lib/ironman/suit.rb'
+      ]
+    end
   end
 end
