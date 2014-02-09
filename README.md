@@ -58,16 +58,16 @@ TODO, but will basically be `$ zombie_scout scout`
 
 ## TODOs
 
-- [x] switch from rake tasks to Thor app
-- [x] change to parser gem: http://rubygems.org/gems/parser
-- [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
-- [ ] let users configure: files to search for methods, files to search for calls...
+* [x] switch from rake tasks to Thor app
+* [x] change to parser gem: http://rubygems.org/gems/parser
+* [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
+* [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
+* [ ] make sure you're searching right for `def foo=(val)` methods
 
 ToThinkAbouts:
-- [ ] extract a hash-y report structure that can be used by whatever, from the default report
-- [ ] a "search for usages in specs" option
-- [ ] pass a method name, or a ruby class
-- [ ] rspec/mini-test drop-in tests that can be added easily, to fail your
+* [ ] extract a hash-y report structure that can be used by whatever, from the default report
+* [ ] pass a method name, or a ruby class
+* [ ] rspec/mini-test drop-in tests that can be added easily, to fail your
   build if the scout or spy finds dead code. (This is probably a bad idea.)
 
 Have ZombieScout make a hash-y report, & feed it to ZombieSpy, so the Spy knows where to focus.
