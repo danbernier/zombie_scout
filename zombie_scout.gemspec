@@ -1,18 +1,30 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'zombie_scout/version'
+
 Gem::Specification.new do |s|
   s.name        = 'zombie_scout'
-  s.version     = '0.0.1'
-  s.date        = '2014-02-07'
+  s.version     = ZombieScout::VERSION
+  s.date        = Date.today.to_s
+
   s.summary     = "Find dead methods in your Rails app"
   s.description = "
       zombie_scout finds methods in classes in your ruby project, 
       and then searches for calls to them, and tells you which ones 
       are never called.".strip.gsub(/^\s*/, '')
-  s.authors     = ["Dan Bernier"]
-  s.email       = 'danbernier@gmail.com'
-  s.files       = ['Rakefile'] + Dir.glob("lib/*.rb")
-  s.homepage    = 'http://rubygems.org/gems/zombie_scout'
+  s.homepage    = 'https://github.com/danbernier/zombie_scout'
   s.license     = 'ASL2'
+      
+  s.authors     = ["Dan Bernier"]
+  s.email       = ['danbernier@gmail.com']
 
-  s.add_dependency('ruby_parser', '=3.0.0.a9')
+  s.files         = `git ls-files -z`.split("\x0")
+  s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
+  s.require_paths = ["lib"]
+
+  s.add_dependency('parser', '~> 2.1.4')
   s.add_dependency('thor', '~> 0.18')
+  s.add_development_dependency "bundler", "~> 1.5"
 end
