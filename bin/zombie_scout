@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby 
 require 'rubygems'
-
-$LOAD_PATH << File.expand_path('lib')   # TODO Shouldn't the gem do this for us?
-
-load 'zombie_scout.rb'
+require 'zombie_scout'
 
 ZombieScout::App.start(ARGV)
