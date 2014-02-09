@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.license     = 'ASL2'
 
   s.add_dependency('ruby_parser', '=3.0.0.a9')
+  s.add_dependency('thor', '~> 0.18')
 end
