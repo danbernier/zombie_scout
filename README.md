@@ -14,7 +14,7 @@ parses your code to find method declarations, and then greps through your
 project's source, looking for each method.  If Zombie Scout can't find any
 calls to a method, it presumes the method is dead, and reports back to you.
 
-## Fair Warning
+### Fair Warning
 
 Zombie Scout isn't exhaustive or thorough - it's a scout, not a spy. (That
 could be another project, though - a Zombie Spy.) If you generate methods in a
@@ -33,7 +33,7 @@ If you have methods that are used by another library - say, callbacks - Zombie
 Scout will probably think they're dead, because it's not looking at the source
 for that other library. Be wise.
 
-## Current Status
+### Current Status
 
 This is so alpha, it's almost omega.
 
@@ -47,6 +47,14 @@ It's not exactly well-spec'd, but that one-off script has found many dead
 methods in a real code base. But like I said, I'm basically re-writing it.
 
 Long story short, don't bet your bonus on this just yet.
+
+## Installation
+
+TODO, but will basically be `gem install zombie_scout`
+
+## Usage
+
+TODO, but will basically be `$ zombie_scout scout`
 
 ## TODOs
 
