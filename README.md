@@ -36,9 +36,6 @@ Long story short, don't bet your bonus on this just yet.
 ## TODOs
 
 - [x] switch from rake tasks to Thor app
-- [x] switch from zombie-hunter to zombie_scout (because it's light & quick)
-- [x] basically chuck the old github repo, & start another. Kill the git history, too. Just to be sure.
-- [x] upgrade to ruby 2.1.0
 - [ ] version.rb
 - [ ] change to parser gem: http://rubygems.org/gems/parser
 - [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
