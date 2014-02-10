@@ -38,13 +38,15 @@ for that other library. Be wise.
 This is so alpha, it's almost omega.
 
 The code is being extracted from a one-off script I used to run, and basically
-re-written at the same time. It's changing from a rake task to a Thor app, and
-when I'm done, it should work on *any* ruby codebase, not just a rails app.
+re-written at the same time. ~~It's changing from a rake task to a Thor app~~
+(that's done), and ~~it should work on *any* ruby codebase, not just a rails
+app~~ (that's done, too).
 
 It's undocumented. (TODO write some docs.)
 
-It's not exactly well-spec'd, but that one-off script has found many dead
-methods in a real code base. But like I said, I'm basically re-writing it.
+~~It's not exactly well-spec'd~~ (it's spec'd ok now), but that one-off script
+has found many dead methods in a real code base. But like I said, I'm basically
+re-writing it.
 
 Long story short, don't bet your bonus on this just yet.
 
