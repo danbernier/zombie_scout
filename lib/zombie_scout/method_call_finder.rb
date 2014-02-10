@@ -1,5 +1,10 @@
 module ZombieScout
   class MethodCallFinder
+
+    def initialize(ruby_project)
+      @ruby_project = ruby_project
+    end
+
     def count_calls(method_name)
       method_name = method_name.to_s
       method_name.sub!(/=$/, ' *=')
@@ -10,15 +15,13 @@ module ZombieScout
 
     def find_occurrances(method_name)
       # TODO somehow expose some of this config for end-users
-      grep_lines = `grep #{method_name} -rnw #{folders_to_search} --include=*.rb` 
-      # --include=*.{rb,erb,rake}`
-
+      command = "grep #{method_name} -rnw #{files_to_search}" 
+      grep_lines = `#{command}` 
       grep_lines.split("\n")
     end
 
-    def folders_to_search
-      #"#{@root_dir}/app #{@root_dir}/lib #{@root_dir}/config"
-      @root_dir
+    def files_to_search
+      @ruby_project.ruby_file_paths.join(' ')
     end
   end
 end

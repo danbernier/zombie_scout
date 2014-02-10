@@ -8,14 +8,17 @@ module ZombieScout
     end
 
     def ruby_sources
-      Dir.glob(File.join(@root_dir, glob)).map { |path|
-        path = path.sub(/^\/#{@root_dir}\//, '')
-        RubySource.new(path)
+      ruby_file_paths.map { |path| RubySource.new(path) }
+    end
+
+    def ruby_file_paths
+      Dir.glob(glob).map { |path|
+        path.sub(/^\/#{@root_dir}\//, '')
       }
     end
 
     def glob
-      "{#{folders.join(',')}}/**/*.rb"
+      File.join(@root_dir,  "{#{folders.join(',')}}/**/*.rb")
     end
 
     def folders

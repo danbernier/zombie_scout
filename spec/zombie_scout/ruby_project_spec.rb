@@ -28,4 +28,23 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
       ]
     end
   end
+
+  context 'in a rails project' do
+    it 'returns a RubySource for each *.rb under lib and app' do
+      files = [
+        'app/models/suit.rb',
+        'app/controllers/suits_controller.rb',
+        'spec/views/suit_view_spec.rb',
+        'test/models/test_suit.rb'
+      ]
+
+      files.each { |file| touch('ironman/' + file) }
+
+      sources = ZombieScout::RubyProject.new('ironman').ruby_sources
+      expect(sources.map(&:path).sort).to eq [
+        'app/controllers/suits_controller.rb',
+        'app/models/suit.rb'
+      ]
+    end
+  end
 end
