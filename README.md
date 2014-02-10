@@ -50,7 +50,13 @@ Long story short, don't bet your bonus on this just yet.
 
 ## Installation
 
-TODO, but will basically be `gem install zombie_scout`
+It's super-early! But if you don't mind living with a few bugs:
+
+    gem install zombie_scout
+
+Or add this to your Gemfile:
+
+    gem 'zombie_scout', github: 'danbernier/zombie_scout'
 
 ## Usage
 
