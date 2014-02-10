@@ -15,7 +15,7 @@ module ZombieScout
 
     def find_occurrances(method_name)
       # TODO somehow expose some of this config for end-users
-      command = "grep #{method_name} -rnw #{files_to_search}" 
+      command = "grep #{method_name} -rnw --binary-files=without-match #{files_to_search}"
       grep_lines = `#{command}` 
       grep_lines.split("\n")
     end
