@@ -19,9 +19,9 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
         'test/ironman/test_suit.rb'
       ]
 
-      files.each { |file| touch('ironman/' + file) }
+      files.each { |file| touch(file) }
 
-      sources = ZombieScout::RubyProject.new('ironman').ruby_sources
+      sources = ZombieScout::RubyProject.new.ruby_sources
       expect(sources.map(&:path)).to eq [
         'lib/ironman/jarvis.rb',
         'lib/ironman/suit.rb'
@@ -38,9 +38,9 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
         'test/models/test_suit.rb'
       ]
 
-      files.each { |file| touch('ironman/' + file) }
+      files.each { |file| touch(file) }
 
-      sources = ZombieScout::RubyProject.new('ironman').ruby_sources
+      sources = ZombieScout::RubyProject.new.ruby_sources
       expect(sources.map(&:path).sort).to eq [
         'app/controllers/suits_controller.rb',
         'app/models/suit.rb'

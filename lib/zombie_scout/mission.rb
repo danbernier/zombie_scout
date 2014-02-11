@@ -4,9 +4,9 @@ require 'zombie_scout/method_call_finder'
 
 module ZombieScout
   class Mission
-    def initialize(project_dir)
-      puts "Scouting out #{project_dir}!"
-      @ruby_project = RubyProject.new(project_dir)
+    def initialize
+      puts "Scouting out #{Dir.pwd}!"
+      @ruby_project = RubyProject.new
     end
 
     def scout
