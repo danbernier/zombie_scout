@@ -86,10 +86,11 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
   end
 
   context 'in a rails project' do
-    it 'returns a RubySource for each *.rb under lib and app' do
+    it 'returns a RubySource for each *.rb under app, config, & lib' do
       files = [
         'app/models/suit.rb',
         'app/controllers/suits_controller.rb',
+        'config/initializers/extensions.rb',
         'spec/views/suit_view_spec.rb',
         'test/models/test_suit.rb'
       ]
@@ -99,7 +100,8 @@ describe ZombieScout::RubyProject, '#ruby_sources' do
       sources = ZombieScout::RubyProject.new.ruby_sources
       expect(sources.map(&:path).sort).to eq [
         'app/controllers/suits_controller.rb',
-        'app/models/suit.rb'
+        'app/models/suit.rb',
+        'config/initializers/extensions.rb'
       ]
     end
   end

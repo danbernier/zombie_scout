@@ -6,7 +6,7 @@ module ZombieScout
 
     def initialize(*globs)
       @globs = globs
-      @globs = %w[app lib] if @globs.empty?
+      @globs = %w[app config lib] if @globs.empty?
     end
 
     def ruby_sources
