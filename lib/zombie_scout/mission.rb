@@ -4,9 +4,9 @@ require 'zombie_scout/method_call_finder'
 
 module ZombieScout
   class Mission
-    def initialize
+    def initialize(globs)
       puts "Scouting out #{Dir.pwd}!"
-      @ruby_project = RubyProject.new
+      @ruby_project = RubyProject.new(*globs)
     end
 
     def scout
@@ -27,7 +27,7 @@ module ZombieScout
 
     def methods
       @methods ||= sources.map { |ruby_source|
-        methods = MethodFinder.new(ruby_source).find_methods
+        MethodFinder.new(ruby_source).find_methods
       }.flatten
     end
 
