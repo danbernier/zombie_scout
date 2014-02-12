@@ -30,8 +30,10 @@ module ZombieScout
       }
     end
 
-    def folders
-      %w[app lib]
+    def folders  # TODO this is only called from Mission...weird?
+      %w[app config lib].select { |folder|
+        Dir.exist?(folder)
+      }
     end
   end
 end
