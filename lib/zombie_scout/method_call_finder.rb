@@ -23,7 +23,7 @@ module ZombieScout
     end
 
     def files_to_search
-      glob = @ruby_project.folders.join(' ')
+      @ruby_project.folders.join(' ')
     end
   end
 end
