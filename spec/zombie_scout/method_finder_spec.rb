@@ -24,7 +24,7 @@ describe ZombieScout::MethodFinder, '#find_methods' do
 
     expect(methods[1].name).to eq :fizz
     expect(methods[1].location).to eq 'lib/fizzbuzz.rb:3'
-  end 
+  end
 
   it 'excludes private method calls, since we KNOW they are called' do
     ruby_code = "

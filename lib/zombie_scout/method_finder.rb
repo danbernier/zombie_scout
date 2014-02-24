@@ -20,10 +20,10 @@ module ZombieScout
       }
     end
 
-    def on_def(node) 
-      method_name, args, body = *node 
+    def on_def(node)
+      method_name, args, body = *node
       stash_method(method_name, node.location)
-      process(body) 
+      process(body)
     end
 
     def on_defs(node)
@@ -40,7 +40,7 @@ module ZombieScout
       process(args)
     end
 
-    private 
+    private
 
     def stash_method(method_name, node_location)
       line_number = node_location.line

@@ -18,7 +18,7 @@ module ZombieScout
       command = "grep -rnw --include=\"*.rb\" --include=\"*.erb\" --binary-files=without-match \"#{method_name}\" #{files_to_search} "
       #  grep -r --include="*.rb" --include="*.erb" -nw PATTERN app lib
 
-      grep_lines = `#{command}` 
+      grep_lines = `#{command}`
       grep_lines.split("\n")
     end
 
