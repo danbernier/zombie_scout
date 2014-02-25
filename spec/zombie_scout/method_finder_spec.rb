@@ -26,6 +26,42 @@ describe ZombieScout::MethodFinder, '#find_methods' do
     expect(methods[1].location).to eq 'lib/fizzbuzz.rb:3'
   end
 
+  it 'can find attr_readers' do
+    ruby_code = "
+    class Book
+      attr_reader :title, :author
+    end
+    "
+    ruby_source = double(:ruby_source, path: 'lib/book.rb', source: ruby_code)
+
+    methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
+    expect(methods.map(&:name).sort).to eq(%i[author title])
+  end
+
+  it 'can find attr_writers' do
+    ruby_code = "
+    class Book
+      attr_writer :title, :author
+    end
+    "
+    ruby_source = double(:ruby_source, path: 'lib/book.rb', source: ruby_code)
+
+    methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
+    expect(methods.map(&:name).sort).to eq(%i[author= title=])
+  end
+
+  it 'can find attr_writers' do
+    ruby_code = "
+    class Book
+      attr_accessor :title, :author
+    end
+    "
+    ruby_source = double(:ruby_source, path: 'lib/book.rb', source: ruby_code)
+
+    methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
+    expect(methods.map(&:name).sort).to eq(%i[author author= title title=])
+  end
+
   it 'excludes private method calls, since we KNOW they are called' do
     ruby_code = "
       class FizzBuzz

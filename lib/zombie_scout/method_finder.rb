@@ -33,11 +33,27 @@ module ZombieScout
     end
 
     def on_send(node)
-      receiver, method_name, args = *node
-      if receiver.nil?  # Then it's a private method call
+      receiver, method_name, *args = *node
+      if method_name == :attr_reader
+        args.each do |arg|
+          attr_method_name = SymbolExtracter.new.process(arg)
+          stash_method(attr_method_name, node.location)
+        end
+      elsif method_name == :attr_writer
+        args.each do |arg|
+          attr_method_name = SymbolExtracter.new.process(arg)
+          stash_method(:"#{attr_method_name}=", node.location)
+        end
+      elsif method_name == :attr_accessor
+        args.each do |arg|
+          attr_method_name = SymbolExtracter.new.process(arg)
+          stash_method(attr_method_name, node.location)
+          stash_method(:"#{attr_method_name}=", node.location)
+        end
+      elsif receiver.nil?  # Then it's a private method call
         @private_method_calls << method_name
+        process_all(args)
       end
-      process(args)
     end
 
     private
@@ -46,6 +62,12 @@ module ZombieScout
       line_number = node_location.line
       location = [@ruby_source.path, line_number].join(":")
       @methods << Method.new(method_name, location)
+    end
+  end
+
+  class SymbolExtracter < Parser::AST::Processor
+    def on_sym(node)
+      node.to_a[0]
     end
   end
 end
