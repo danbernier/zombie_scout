@@ -53,7 +53,7 @@ The basics:
 
 Or, add this to your Gemfile:
 
-    gem 'zombie_scout', github: 'danbernier/zombie_scout'
+    gem 'zombie_scout'
 
 ## Usage
 
