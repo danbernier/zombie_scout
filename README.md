@@ -47,12 +47,13 @@ Be wise.
 
 ## Installation
 
-It's super-early! But if you don't mind living with a few bugs, add this to
-your Gemfile:
+The basics:
+
+    gem install 'zombie_scout'
+
+Or, add this to your Gemfile:
 
     gem 'zombie_scout', github: 'danbernier/zombie_scout'
-
-I'll push to rubygems soon.
 
 ## Usage
 
