@@ -24,7 +24,7 @@ PLATFORMS
 
 DEPENDENCIES
   fakefs
-  parser (~> 2.1.4)
+  parser (~> 2.1)
   rake
   rspec
   thor (~> 0.18)

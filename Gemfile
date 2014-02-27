@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'parser', '~> 2.1.4'
+gem 'parser', '~> 2.1'
 gem 'thor', '~> 0.18'
 
 group :test do
