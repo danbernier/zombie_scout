@@ -46,21 +46,21 @@ module ZombieScout
 
     def on_attr_reader(args, node)
       args.each do |arg|
-        attr_method_name = SymbolExtracter.new.process(arg)
+        attr_method_name = symbol(arg)
         stash_method(attr_method_name, node.location)
       end
     end
 
     def on_attr_writer(args, node)
       args.each do |arg|
-        attr_method_name = SymbolExtracter.new.process(arg)
+        attr_method_name = symbol(arg)
         stash_method(:"#{attr_method_name}=", node.location)
       end
     end
 
     def on_attr_accessor(args, node)
       args.each do |arg|
-        attr_method_name = SymbolExtracter.new.process(arg)
+        attr_method_name = symbol(arg)
         stash_method(attr_method_name, node.location)
         stash_method(:"#{attr_method_name}=", node.location)
       end
@@ -68,14 +68,18 @@ module ZombieScout
 
     def on_def_delegators(args, node)
       args.drop(1).each do |arg|
-        attr_method_name = SymbolExtracter.new.process(arg)
+        attr_method_name = symbol(arg)
         stash_method(attr_method_name, node.location)
       end
     end
 
     def on_def_delegator(args, node)
-      attr_method_name = SymbolExtracter.new.process(args.last)
+      attr_method_name = symbol(args.last)
       stash_method(attr_method_name, node.location)
+    end
+
+    def symbol(node)
+      SymbolExtracter.new.process(node)
     end
 
     def stash_method(method_name, node_location)
