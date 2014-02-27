@@ -34,30 +34,8 @@ module ZombieScout
 
     def on_send(node)
       receiver, method_name, *args = *node
-      if method_name == :attr_reader
-        args.each do |arg|
-          attr_method_name = SymbolExtracter.new.process(arg)
-          stash_method(attr_method_name, node.location)
-        end
-      elsif method_name == :attr_writer
-        args.each do |arg|
-          attr_method_name = SymbolExtracter.new.process(arg)
-          stash_method(:"#{attr_method_name}=", node.location)
-        end
-      elsif method_name == :attr_accessor
-        args.each do |arg|
-          attr_method_name = SymbolExtracter.new.process(arg)
-          stash_method(attr_method_name, node.location)
-          stash_method(:"#{attr_method_name}=", node.location)
-        end
-      elsif method_name == :def_delegators
-        args.drop(1).each do |arg|
-          attr_method_name = SymbolExtracter.new.process(arg)
-          stash_method(attr_method_name, node.location)
-        end
-      elsif method_name == :def_delegator
-        attr_method_name = SymbolExtracter.new.process(args.last)
-        stash_method(attr_method_name, node.location)
+      if respond_to?(:"on_#{method_name}", true)
+        send(:"on_#{method_name}", args, node)
       elsif receiver.nil?  # Then it's a private method call
         @private_method_calls << method_name
         process_all(args)
@@ -65,6 +43,40 @@ module ZombieScout
     end
 
     private
+
+    def on_attr_reader(args, node)
+      args.each do |arg|
+        attr_method_name = SymbolExtracter.new.process(arg)
+        stash_method(attr_method_name, node.location)
+      end
+    end
+
+    def on_attr_writer(args, node)
+      args.each do |arg|
+        attr_method_name = SymbolExtracter.new.process(arg)
+        stash_method(:"#{attr_method_name}=", node.location)
+      end
+    end
+
+    def on_attr_accessor(args, node)
+      args.each do |arg|
+        attr_method_name = SymbolExtracter.new.process(arg)
+        stash_method(attr_method_name, node.location)
+        stash_method(:"#{attr_method_name}=", node.location)
+      end
+    end
+
+    def on_def_delegators(args, node)
+      args.drop(1).each do |arg|
+        attr_method_name = SymbolExtracter.new.process(arg)
+        stash_method(attr_method_name, node.location)
+      end
+    end
+
+    def on_def_delegator(args, node)
+      attr_method_name = SymbolExtracter.new.process(args.last)
+      stash_method(attr_method_name, node.location)
+    end
 
     def stash_method(method_name, node_location)
       line_number = node_location.line
