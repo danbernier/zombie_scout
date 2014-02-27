@@ -31,34 +31,22 @@ common situations, so they're on the To-do list.
 
 If you have methods that are used by another library - say, callbacks - Zombie
 Scout will probably think they're dead, because it's not looking at the source
-for that other library. Be wise.
+for that other library.
 
-### Current Status
+Finally, if you have a method named after a common human-language word, and
+that word appears in (say) hard-coded strings or comments, Zombie Scout will
+think it's calling the method, and assume that the method is used.
 
-This is so alpha, it's almost omega.
-
-The code is being extracted from a one-off script I used to run, and basically
-re-written at the same time. ~~It's changing from a rake task to a Thor app~~
-(that's done), and ~~it should work on *any* ruby codebase, not just a rails
-app~~ (that's done, too).
-
-It's undocumented. (TODO write some docs.)
-
-~~It's not exactly well-spec'd~~ (it's spec'd ok now), but that one-off script
-has found many dead methods in a real code base. But like I said, I'm basically
-re-writing it.
-
-Long story short, don't bet your bonus on this just yet.
+Be wise.
 
 ## Installation
 
-It's super-early! But if you don't mind living with a few bugs:
-
-    gem install zombie_scout
-
-Or add this to your Gemfile:
+It's super-early! But if you don't mind living with a few bugs, add this to
+your Gemfile:
 
     gem 'zombie_scout', github: 'danbernier/zombie_scout'
+
+I'll push to rubygems soon.
 
 ## Usage
 
@@ -70,7 +58,7 @@ TODO, but will basically be `$ zombie_scout scout`
 * [x] change to parser gem: http://rubygems.org/gems/parser
 * [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
 * [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
-* [ ] make sure you're searching right for `def foo=(val)` methods
+* [x] make sure you're searching right for `def foo=(val)` methods
 
 ToThinkAbouts:
 * [ ] extract a hash-y report structure that can be used by whatever, from the default report
