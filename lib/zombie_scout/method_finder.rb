@@ -34,8 +34,8 @@ module ZombieScout
 
     def on_send(node)
       receiver, method_name, *args = *node
-      if respond_to?(:"on_#{method_name}", true)
-        send(:"on_#{method_name}", args, node)
+      if respond_to?(:"handle_#{method_name}", true)
+        send(:"handle_#{method_name}", args, node)
       elsif receiver.nil?  # Then it's a private method call
         @private_method_calls << method_name
         process_all(args)
@@ -44,21 +44,21 @@ module ZombieScout
 
     private
 
-    def on_attr_reader(args, node)
+    def handle_attr_reader(args, node)
       args.each do |arg|
         attr_method_name = symbol(arg)
         stash_method(attr_method_name, node)
       end
     end
 
-    def on_attr_writer(args, node)
+    def handle_attr_writer(args, node)
       args.each do |arg|
         attr_method_name = symbol(arg)
         stash_method(:"#{attr_method_name}=", node)
       end
     end
 
-    def on_attr_accessor(args, node)
+    def handle_attr_accessor(args, node)
       args.each do |arg|
         attr_method_name = symbol(arg)
         stash_method(attr_method_name, node)
@@ -66,19 +66,19 @@ module ZombieScout
       end
     end
 
-    def on_def_delegators(args, node)
+    def handle_def_delegators(args, node)
       args.drop(1).each do |arg|
         attr_method_name = symbol(arg)
         stash_method(attr_method_name, node)
       end
     end
 
-    def on_def_delegator(args, node)
+    def handle_def_delegator(args, node)
       attr_method_name = symbol(args.last)
       stash_method(attr_method_name, node)
     end
 
-    def on_scope(args, node)
+    def handle_scope(args, node)
       attr_method_name = symbol(args.first)
       stash_method(attr_method_name, node)
     end
