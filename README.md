@@ -26,7 +26,7 @@ way that's hard to grep for...
 ...then Zombie Scout won't find it. Remember: light & quick.
 
 This also means it can't find methods defined with ~~`attr_reader` & friends, or~~
-Rails scopes, or `Forwardable` methods, or Rails delegators. But those are
+Rails scopes, ~~or `Forwardable` methods,~~ or Rails delegators. But those are
 common situations, so they're on the To-do list.
 
 If you have methods that are used by another library - say, callbacks - Zombie

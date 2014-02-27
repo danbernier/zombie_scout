@@ -50,6 +50,14 @@ module ZombieScout
           stash_method(attr_method_name, node.location)
           stash_method(:"#{attr_method_name}=", node.location)
         end
+      elsif method_name == :def_delegators
+        args.drop(1).each do |arg|
+          attr_method_name = SymbolExtracter.new.process(arg)
+          stash_method(attr_method_name, node.location)
+        end
+      elsif method_name == :def_delegator
+        attr_method_name = SymbolExtracter.new.process(args.last)
+        stash_method(attr_method_name, node.location)
       elsif receiver.nil?  # Then it's a private method call
         @private_method_calls << method_name
         process_all(args)

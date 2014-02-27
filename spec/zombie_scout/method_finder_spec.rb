@@ -62,6 +62,34 @@ describe ZombieScout::MethodFinder, '#find_methods' do
     expect(methods.map(&:name).sort).to eq(%i[author author= title title=])
   end
 
+  it 'can find Forwardable delegators defined with def_delegator' do
+    ruby_code = "
+      class RecordCollection
+        extend Forwardable
+        def_delegator :@records, :[], :record_number
+      end
+    "
+    ruby_source = double(:ruby_source, path: 'lib/record_collection.rb', source: ruby_code)
+
+    methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
+    expect(methods.size).to eq(1)
+    expect(methods[0].name).to eq(:record_number)
+  end
+
+  it 'can find Forwardable delegators defined with def_delegators' do
+    ruby_code = "
+      class RecordCollection
+        extend Forwardable
+        def_delegators :@records, :size, :<<, :map
+      end
+    "
+    ruby_source = double(:ruby_source, path: 'lib/record_collection.rb', source: ruby_code)
+
+    methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
+    expect(methods.size).to eq(3)
+    expect(methods.map(&:name).sort).to eq(%i[<< map size])
+  end
+
   it 'excludes private method calls, since we KNOW they are called' do
     ruby_code = "
       class FizzBuzz
