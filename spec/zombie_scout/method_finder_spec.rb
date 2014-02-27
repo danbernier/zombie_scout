@@ -89,6 +89,18 @@ describe ZombieScout::MethodFinder, '#find_methods' do
     end
   end
 
+  context 'when a rails model has scopes' do
+    let(:ruby_code) {
+      "class Post
+         scope :published, -> { where(published: true) }
+         scope :draft, -> { where(published: true) }
+       end"
+    }
+    it 'can find scopes' do
+      expect(zombies.map(&:name)).to eq(%i[draft published])
+    end
+  end
+
   context 'when a ruby file has private methods' do
     let(:ruby_code) {
       "class FizzBuzz

@@ -27,7 +27,8 @@ If you generate methods in a way that's hard to grep for...
 ...then Zombie Scout won't find it. Remember: light & quick.
 
 That said, it *will* find methods defined with `attr_reader` & friends, or
-`Forwardable` delegates.  Rails scopes & delegators are on the To-Do list.
+`Forwardable` delegates, or Rails scopes.  Rails delegators are on the To-Do
+list.
 
 If you have methods that are used by another library - say, callbacks - Zombie
 Scout will probably think they're dead, because it's not looking at the source
@@ -79,12 +80,9 @@ Or you can run it on a given file or glob:
 
 ## TODOs
 
-* [x] switch from rake tasks to Thor app
-* [x] change to parser gem: http://rubygems.org/gems/parser
-* [x] parse for attr_reader/writer/accessors, & forwardables
-* [ ] parse for rails scopes & delegators
+* [x] parse for attr_reader/writer/accessors, & forwardables, & rails scopes
+* [ ] parse for rails delegators
 * [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
-* [x] make sure you're searching right for `def foo=(val)` methods
 
 ToThinkAbouts:
 * [ ] extract a hash-y report structure that can be used by whatever, from the default report

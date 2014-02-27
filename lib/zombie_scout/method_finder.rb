@@ -78,6 +78,11 @@ module ZombieScout
       stash_method(attr_method_name, node)
     end
 
+    def on_scope(args, node)
+      attr_method_name = symbol(args.first)
+      stash_method(attr_method_name, node)
+    end
+
     def symbol(node)
       SymbolExtracter.new.process(node)
     end
