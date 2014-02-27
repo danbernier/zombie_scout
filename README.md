@@ -17,17 +17,17 @@ calls to a method, it presumes the method is dead, and reports back to you.
 ### Fair Warning
 
 Zombie Scout isn't exhaustive or thorough - it's a scout, not a spy. (That
-could be another project, though - a Zombie Spy.) If you generate methods in a
-way that's hard to grep for...
+could be another project, though - a Zombie Spy.)
+
+If you generate methods in a way that's hard to grep for...
 
     method_name = ['s', 'e', 'c', 'r', 'e', 't']
     object.send(method_name.join(''))
 
 ...then Zombie Scout won't find it. Remember: light & quick.
 
-This also means it can't find methods defined with ~~`attr_reader` & friends, or~~
-Rails scopes, ~~or `Forwardable` methods,~~ or Rails delegators. But those are
-common situations, so they're on the To-do list.
+That said, it *will* find methods defined with `attr_reader` & friends, or
+`Forwardable` delegates.  Rails scopes & delegators are on the To-Do list.
 
 If you have methods that are used by another library - say, callbacks - Zombie
 Scout will probably think they're dead, because it's not looking at the source
@@ -36,6 +36,11 @@ for that other library.
 Finally, if you have a method named after a common human-language word, and
 that word appears in (say) hard-coded strings or comments, Zombie Scout will
 think it's calling the method, and assume that the method is used.
+
+    # this is an awesome method!   <-- false positive right there
+    def awesome
+      'AWESOME!'
+    end
 
 Be wise.
 
@@ -50,13 +55,30 @@ I'll push to rubygems soon.
 
 ## Usage
 
-TODO, but will basically be `$ zombie_scout scout`
+You can run it on a whole folder:
+
+    dan@aleph:~/projects/zombie_scout$ zombie_scout scout
+    Scouting out /home/dan/projects/zombie_scout!
+    lib/zombie_scout/method_finder.rb:23    on_def
+    lib/zombie_scout/method_finder.rb:29    on_defs
+    lib/zombie_scout/method_finder.rb:35    on_send
+    lib/zombie_scout/method_finder.rb:77    on_sym
+    Scouted 23 methods in 8 files. Found 4 potential zombies.
+
+(See what I meant about callbacks and false-positives?)
+
+Or you can run it on a given file or glob:
+
+    dan@aleph:~/projects/zombie_scout$ zombie_scout scout lib/zombie_scout.rb
+    Scouting out /home/dan/projects/zombie_scout!
+    Scouted 0 methods in 1 files. Found 0 potential zombies.
 
 ## TODOs
 
 * [x] switch from rake tasks to Thor app
 * [x] change to parser gem: http://rubygems.org/gems/parser
-* [ ] parse for attr_reader/writer/accessors, scopes, forwardables, and delegators.
+* [x] parse for attr_reader/writer/accessors, & forwardables
+* [ ] parse for rails scopes & delegators
 * [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
 * [x] make sure you're searching right for `def foo=(val)` methods
 
