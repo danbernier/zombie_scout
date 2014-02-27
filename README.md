@@ -1,7 +1,7 @@
 zombie_scout
 =============
 
-Find dead methods in your Rails app
+Find dead methods in your Ruby app
 
 **zom·bie code** *noun* Undead code that shambles around your repository, and
 eats your brains.

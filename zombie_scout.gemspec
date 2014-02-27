@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = ZombieScout::VERSION
   s.date        = Date.today.to_s
 
-  s.summary     = "Find dead methods in your Rails app"
+  s.summary     = "Find dead methods in your Ruby app"
   s.description = "
       zombie_scout finds methods in classes in your ruby project, 
       and then searches for calls to them, and tells you which ones 
