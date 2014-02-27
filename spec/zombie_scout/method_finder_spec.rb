@@ -79,7 +79,7 @@ describe ZombieScout::MethodFinder, '#find_methods' do
 
     methods = ZombieScout::MethodFinder.new(ruby_source).find_methods
 
-    expect(methods.size). to eq 1
+    expect(methods.size).to eq 1
     expect(methods[0].name).to eq :fizz
     expect(methods.map(&:name)).not_to include :magick_helper
   end

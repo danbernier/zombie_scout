@@ -38,6 +38,6 @@ module ZombieScout
     def might_be_dead?(method)
       @method_call_counter ||= MethodCallFinder.new(@ruby_project)
       @method_call_counter.count_calls(method.name) < 2
-    end 
+    end
   end
 end
