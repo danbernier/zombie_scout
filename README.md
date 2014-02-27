@@ -73,6 +73,10 @@ Or you can run it on a given file or glob:
     Scouting out /home/dan/projects/zombie_scout!
     Scouted 0 methods in 1 files. Found 0 potential zombies.
 
+## Code Status
+
+* [![Build Status](https://travis-ci.org/danbernier/zombie_scout.png?branch=master)](https://travis-ci.org/danbernier/zombie_scout)
+
 ## TODOs
 
 * [x] switch from rake tasks to Thor app
