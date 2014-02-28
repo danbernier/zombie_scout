@@ -23,15 +23,31 @@ module ZombieScout
     private
 
     def zombies
-      @zombies ||= methods.select { |method|
+      return @zombies unless @zombies.nil?
+
+      scout!
+      @zombies ||= @defined_methods.select { |method|
         might_be_dead?(method)
       }
     end
 
-    def methods
-      @methods ||= sources.map { |ruby_source|
-        ZombieScout::Parser.new(ruby_source).defined_methods
-      }.flatten
+    def scout!
+      @defined_methods, @called_methods = [], []
+
+      sources.each do |ruby_source|
+        parser = ZombieScout::Parser.new(ruby_source)
+        @defined_methods.concat(parser.defined_methods)
+        @called_methods.concat(parser.called_methods)
+      end
+
+      @called_methods.uniq!
+      puts "Ignoring #{@called_methods.count} methods that we already saw called."
+
+      s = @defined_methods.size
+      @defined_methods.reject! do |method|
+        @called_methods.include?(method.name)
+      end
+      puts "This will save us #{s - @defined_methods.size} greps."
     end
 
     def sources
