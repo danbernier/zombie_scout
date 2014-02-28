@@ -4,21 +4,14 @@ module ZombieScout
   Method = Class.new(Struct.new(:name, :location))
 
   class Parser < Parser::AST::Processor
-    attr_reader :called_methods
+    attr_reader :defined_methods, :called_methods
 
     def initialize(ruby_source)
       @ruby_source = ruby_source
       @defined_methods = []
       @called_methods = []
-      @private_method_calls = []
       node = ::Parser::CurrentRuby.parse(@ruby_source.source)
       process(node)
-    end
-
-    def defined_methods
-      @defined_methods.reject { |method|
-        @private_method_calls.include?(method.name)
-      }
     end
 
     def on_def(node)
@@ -37,11 +30,9 @@ module ZombieScout
       receiver, method_name, *args = *node
       if respond_to?(:"handle_#{method_name}", true)
         send(:"handle_#{method_name}", args, node)
-      elsif receiver.nil?  # Then it's a private method call
-        @private_method_calls << method_name
-        process_all(args)
       end
       @called_methods << method_name
+      process_all(args)
     end
 
     private

@@ -177,8 +177,7 @@ describe ZombieScout::Parser do
       end"
       }
       it 'excludes private method calls, since we KNOW they are called' do
-        expect(defined_methods.map(&:name)).to match_array([:fizz, :other_helper])
-        expect(defined_methods.map(&:name)).not_to include :magick_helper
+        expect(defined_methods.map(&:name)).to match_array([:fizz, :magick_helper, :other_helper])
       end
     end
   end
