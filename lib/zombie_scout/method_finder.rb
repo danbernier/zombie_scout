@@ -46,45 +46,54 @@ module ZombieScout
 
     def handle_attr_reader(args, node)
       args.each do |arg|
-        attr_method_name = symbol(arg)
-        stash_method(attr_method_name, node)
+        if_symbol(arg) do |attr_method_name|
+          stash_method(attr_method_name, node)
+        end
       end
     end
 
     def handle_attr_writer(args, node)
       args.each do |arg|
-        attr_method_name = symbol(arg)
-        stash_method(:"#{attr_method_name}=", node)
+        if_symbol(arg) do |attr_method_name|
+          stash_method(:"#{attr_method_name}=", node)
+        end
       end
     end
 
     def handle_attr_accessor(args, node)
       args.each do |arg|
-        attr_method_name = symbol(arg)
-        stash_method(attr_method_name, node)
-        stash_method(:"#{attr_method_name}=", node)
+        if_symbol(arg) do |attr_method_name|
+          stash_method(attr_method_name, node)
+          stash_method(:"#{attr_method_name}=", node)
+        end
       end
     end
 
     def handle_def_delegators(args, node)
       args.drop(1).each do |arg|
-        attr_method_name = symbol(arg)
-        stash_method(attr_method_name, node)
+        if_symbol(arg) do |attr_method_name|
+          stash_method(attr_method_name, node)
+        end
       end
     end
 
     def handle_def_delegator(args, node)
-      attr_method_name = symbol(args.last)
-      stash_method(attr_method_name, node)
+      if_symbol(args.last) do |attr_method_name|
+        stash_method(attr_method_name, node)
+      end
     end
 
     def handle_scope(args, node)
-      attr_method_name = symbol(args.first)
-      stash_method(attr_method_name, node)
+      if_symbol(args.first) do |attr_method_name|
+        stash_method(attr_method_name, node)
+      end
     end
 
-    def symbol(node)
-      SymbolExtracter.new.process(node)
+    def if_symbol(node)
+      maybe_symbol = SymbolExtracter.new.process(node)
+      if maybe_symbol.is_a? Symbol
+        yield maybe_symbol
+      end
     end
 
     def stash_method(method_name, node)

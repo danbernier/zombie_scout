@@ -32,41 +32,79 @@ describe ZombieScout::MethodFinder, '#find_methods' do
   end
 
   context 'when a ruby file has attr_readers' do
-    let(:ruby_code) { 
-      "class Book
-         attr_reader :title, :author
-       end"
-    }
-
-    it 'can find attr_readers' do
-      expect(zombies.map(&:name)).to eq(%i[author title])
+    context "when they're declared with symbols, the normal way" do
+      let(:ruby_code) {
+        "class Book
+           attr_reader :title, :author
+         end"
+      }
+      it 'can find attr_readers' do
+        expect(zombies.map(&:name)).to eq(%i[author title])
+      end
+    end
+    context "when they're declare with a splat from an array of symbols" do
+      let(:ruby_code) {
+        "class Book
+           attributes = %i(title author)
+           attr_reader *attributes
+         end"
+      }
+      it 'will ignore them' do
+        expect(zombies).to be_empty
+      end
     end
   end
 
   context 'when a ruby file has attr_writers' do
-    let(:ruby_code) { 
-      "class Book
-         attr_writer :title, :author
-       end"
-    }
-    it 'can find attr_writers' do
-      expect(zombies.map(&:name)).to eq(%i[author= title=])
+    context "when they're declared with symbols, the normal way" do
+      let(:ruby_code) {
+        "class Book
+           attr_writer :title, :author
+         end"
+      }
+      it 'can find attr_writers' do
+        expect(zombies.map(&:name)).to eq(%i[author= title=])
+      end
+    end
+    context "when they're declare with a splat from an array of symbols" do
+      let(:ruby_code) {
+        "class Book
+           attributes = %i(title author)
+           attr_reader *attributes
+         end"
+      }
+      it 'will ignore them' do
+        expect(zombies).to be_empty
+      end
     end
   end
 
   context 'when a ruby file has attr_accessors' do
-    let(:ruby_code) {
-      "class Book
-         attr_accessor :title, :author
-       end"
-    }
-    it 'can find attr_accessors' do
-      expect(zombies.map(&:name)).to eq(%i[author author= title title=])
+    context "when they're declared with symbols, the normal way" do
+      let(:ruby_code) {
+        "class Book
+           attr_accessor :title, :author
+         end"
+      }
+      it 'can find attr_accessors' do
+        expect(zombies.map(&:name)).to eq(%i[author author= title title=])
+      end
+    end
+    context "when they're declare with a splat from an array of symbols" do
+      let(:ruby_code) {
+        "class Book
+           attributes = %i(title author)
+           attr_accessor *attributes
+         end"
+      }
+      it 'will ignore them' do
+        expect(zombies).to be_empty
+      end
     end
   end
 
   context 'when a ruby file uses Forwardable::def_delegator' do
-    let(:ruby_code) { 
+    let(:ruby_code) {
       "class RecordCollection
          extend Forwardable
          def_delegator :@records, :[], :record_number
