@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'parser', '~> 2.1'
+gem 'flog'
 gem 'thor', '~> 0.18'
 
 group :test do

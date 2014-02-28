@@ -1,6 +1,7 @@
 require 'zombie_scout/ruby_project'
 require 'zombie_scout/parser'
 require 'zombie_scout/method_call_finder'
+require 'zombie_scout/flog_scorer'
 
 module ZombieScout
   class Mission
@@ -12,7 +13,7 @@ module ZombieScout
     def scout
       start_time = Time.now
       zombies.each do |zombie|
-        puts [zombie.location, zombie.name] * "\t"
+        puts [zombie.location, zombie.name, flog_score(zombie.location)] * "\t"
       end
       duration = Time.now - start_time
 
@@ -21,6 +22,10 @@ module ZombieScout
     end
 
     private
+
+    def flog_score(zombie_location)
+      ZombieScout::FlogScorer.new(zombie_location).score
+    end
 
     def zombies
       return @zombies unless @zombies.nil?
