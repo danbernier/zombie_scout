@@ -30,7 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   fakefs
-  flog
+  flog (~> 4.2)
   parser (~> 2.1)
   rake
   rspec

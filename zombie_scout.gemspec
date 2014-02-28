@@ -26,5 +26,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency('parser', '~> 2.1')
   s.add_dependency('thor', '~> 0.18')
+  s.add_dependency('flog', '~> 4.2')
   s.add_development_dependency "bundler", "~> 1.5"
 end
