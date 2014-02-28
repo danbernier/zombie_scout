@@ -12,19 +12,34 @@ module ZombieScout
     end
 
     def scout
+      @start_time = Time.now
       zombies.map { |zombie|
         { location: zombie.location,
           name: zombie.name,
           flog_score: flog_score(zombie.location)
         }
+      }.tap {
+        @end_time = Time.now
       }
     end
+
+    def duration
+      @end_time - @start_time
+    end
+
+    def source_count
+      sources.size
+    end
+
+    def zombie_count
+      zombies.size
+    end
+
+    private
 
     def sources
       @sources ||= @ruby_project.ruby_sources
     end
-
-    private
 
     def flog_score(zombie_location)
       ZombieScout::FlogScorer.new(zombie_location).score
