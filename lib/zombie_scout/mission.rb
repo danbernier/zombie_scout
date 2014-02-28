@@ -5,20 +5,23 @@ require 'zombie_scout/flog_scorer'
 
 module ZombieScout
   class Mission
+    attr_reader :defined_method_count
+
     def initialize(globs)
-      puts "Scouting out #{Dir.pwd}!"
       @ruby_project = RubyProject.new(*globs)
     end
 
     def scout
-      start_time = Time.now
-      zombies.each do |zombie|
-        puts [zombie.location, zombie.name, flog_score(zombie.location)] * "\t"
-      end
-      duration = Time.now - start_time
+      zombies.map { |zombie|
+        { location: zombie.location,
+          name: zombie.name,
+          flog_score: flog_score(zombie.location)
+        }
+      }
+    end
 
-      puts "Scouted #{methods.size} methods in #{sources.size} files, in #{duration}."
-      puts "Found #{zombies.size} potential zombies."
+    def sources
+      @sources ||= @ruby_project.ruby_sources
     end
 
     private
@@ -45,14 +48,12 @@ module ZombieScout
         @called_methods.concat(parser.called_methods)
       end
 
+      @defined_method_count = @defined_methods.size
+
       @called_methods.uniq!
       @defined_methods.reject! do |method|
         @called_methods.include?(method.name)
       end
-    end
-
-    def sources
-      @sources ||= @ruby_project.ruby_sources
     end
 
     def might_be_dead?(method)

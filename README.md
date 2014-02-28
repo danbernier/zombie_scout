@@ -106,8 +106,8 @@ Or you can run it on a given file or glob:
 * [ ] option for CSV output
 
 ToThinkAbouts:
-* [ ] extract a hash-y report structure that can be used by whatever, from the default report
-* [ ] pass a method name, or a ruby class
+* [x] extract a hash-y report structure that can be used by whatever, from the default report
+* [x] pass a ruby file, or a glob
 * [ ] rspec/mini-test drop-in tests that can be added easily, to fail your
   build if the scout or spy finds dead code. (This is probably a bad idea.)
 
