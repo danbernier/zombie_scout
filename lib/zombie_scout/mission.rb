@@ -41,13 +41,9 @@ module ZombieScout
       end
 
       @called_methods.uniq!
-      puts "Ignoring #{@called_methods.count} methods that we already saw called."
-
-      s = @defined_methods.size
       @defined_methods.reject! do |method|
         @called_methods.include?(method.name)
       end
-      puts "This will save us #{s - @defined_methods.size} greps."
     end
 
     def sources
