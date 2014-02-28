@@ -96,7 +96,7 @@ module ZombieScout
     end
   end
 
-  class SymbolExtracter < Parser::AST::Processor
+  class SymbolExtracter < ::Parser::AST::Processor
     def on_sym(node)
       node.to_a[0]
     end
