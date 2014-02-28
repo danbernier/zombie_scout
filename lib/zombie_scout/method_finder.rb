@@ -6,15 +6,13 @@ module ZombieScout
   class MethodFinder < Parser::AST::Processor
     def initialize(ruby_source)
       @ruby_source = ruby_source
+      @methods = []
+      @private_method_calls = []
+      node = Parser::CurrentRuby.parse(@ruby_source.source)
+      process(node)
     end
 
     def find_methods
-      @methods = []
-      @private_method_calls = []
-
-      node = Parser::CurrentRuby.parse(@ruby_source.source)
-      process(node)
-
       @methods.reject { |method|
         @private_method_calls.include?(method.name)
       }
