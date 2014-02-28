@@ -6,14 +6,14 @@ module ZombieScout
   class Parser < Parser::AST::Processor
     def initialize(ruby_source)
       @ruby_source = ruby_source
-      @methods = []
+      @defined_methods = []
       @private_method_calls = []
       node = ::Parser::CurrentRuby.parse(@ruby_source.source)
       process(node)
     end
 
-    def find_methods
-      @methods.reject { |method|
+    def defined_methods
+      @defined_methods.reject { |method|
         @private_method_calls.include?(method.name)
       }
     end
@@ -97,7 +97,7 @@ module ZombieScout
     def stash_method(method_name, node)
       line_number = node.location.line
       location = [@ruby_source.path, line_number].join(":")
-      @methods << Method.new(method_name, location)
+      @defined_methods << Method.new(method_name, location)
     end
   end
 

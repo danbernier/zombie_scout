@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'zombie_scout/parser'
 
-describe ZombieScout::Parser, '#find_methods' do
+describe ZombieScout::Parser, '#defined_methods' do
   let(:ruby_source) {
     double(:ruby_source, path: 'lib/fizzbuzz.rb', source: ruby_code)
   }
-  let(:zombies) {
-    ZombieScout::Parser.new(ruby_source).find_methods.sort_by(&:name)
+  let(:defined_methods) {
+    ZombieScout::Parser.new(ruby_source).defined_methods.sort_by(&:name)
   }
 
   context 'when a ruby file has instance or class methods' do
@@ -23,11 +23,11 @@ describe ZombieScout::Parser, '#find_methods' do
     }
 
     it 'can find the methods' do
-      expect(zombies[0].name).to eq :buzz
-      expect(zombies[0].location).to eq 'lib/fizzbuzz.rb:6'
+      expect(defined_methods[0].name).to eq :buzz
+      expect(defined_methods[0].location).to eq 'lib/fizzbuzz.rb:6'
 
-      expect(zombies[1].name).to eq :fizz
-      expect(zombies[1].location).to eq 'lib/fizzbuzz.rb:2'
+      expect(defined_methods[1].name).to eq :fizz
+      expect(defined_methods[1].location).to eq 'lib/fizzbuzz.rb:2'
     end
   end
 
@@ -39,7 +39,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'can find attr_readers' do
-        expect(zombies.map(&:name)).to eq(%i[author title])
+        expect(defined_methods.map(&:name)).to eq(%i[author title])
       end
     end
     context "when they're declare with a splat from an array of symbols" do
@@ -50,7 +50,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'will ignore them' do
-        expect(zombies).to be_empty
+        expect(defined_methods).to be_empty
       end
     end
   end
@@ -63,7 +63,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'can find attr_writers' do
-        expect(zombies.map(&:name)).to eq(%i[author= title=])
+        expect(defined_methods.map(&:name)).to eq(%i[author= title=])
       end
     end
     context "when they're declare with a splat from an array of symbols" do
@@ -74,7 +74,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'will ignore them' do
-        expect(zombies).to be_empty
+        expect(defined_methods).to be_empty
       end
     end
   end
@@ -87,7 +87,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'can find attr_accessors' do
-        expect(zombies.map(&:name)).to eq(%i[author author= title title=])
+        expect(defined_methods.map(&:name)).to eq(%i[author author= title title=])
       end
     end
     context "when they're declare with a splat from an array of symbols" do
@@ -98,7 +98,7 @@ describe ZombieScout::Parser, '#find_methods' do
          end"
       }
       it 'will ignore them' do
-        expect(zombies).to be_empty
+        expect(defined_methods).to be_empty
       end
     end
   end
@@ -111,7 +111,7 @@ describe ZombieScout::Parser, '#find_methods' do
        end"
     }
     it 'can find methods created by def_delegator' do
-      expect(zombies.map(&:name)).to match_array([:record_number])
+      expect(defined_methods.map(&:name)).to match_array([:record_number])
     end
   end
 
@@ -123,7 +123,7 @@ describe ZombieScout::Parser, '#find_methods' do
        end"
     }
     it 'can find methods created by def_delegators' do
-      expect(zombies.map(&:name)).to eq(%i[<< map size])
+      expect(defined_methods.map(&:name)).to eq(%i[<< map size])
     end
   end
 
@@ -135,7 +135,7 @@ describe ZombieScout::Parser, '#find_methods' do
        end"
     }
     it 'can find scopes' do
-      expect(zombies.map(&:name)).to eq(%i[draft published])
+      expect(defined_methods.map(&:name)).to eq(%i[draft published])
     end
   end
 
@@ -157,8 +157,8 @@ describe ZombieScout::Parser, '#find_methods' do
       end"
     }
     it 'excludes private method calls, since we KNOW they are called' do
-      expect(zombies.map(&:name)).to match_array([:fizz, :other_helper])
-      expect(zombies.map(&:name)).not_to include :magick_helper
+      expect(defined_methods.map(&:name)).to match_array([:fizz, :other_helper])
+      expect(defined_methods.map(&:name)).not_to include :magick_helper
     end
   end
 end

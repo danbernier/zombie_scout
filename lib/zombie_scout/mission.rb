@@ -30,7 +30,7 @@ module ZombieScout
 
     def methods
       @methods ||= sources.map { |ruby_source|
-        ZombieScout::Parser.new(ruby_source).find_methods
+        ZombieScout::Parser.new(ruby_source).defined_methods
       }.flatten
     end
 
