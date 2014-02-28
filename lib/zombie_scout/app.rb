@@ -4,17 +4,29 @@ require 'zombie_scout/mission'
 module ZombieScout
   class App < Thor
     desc "scout", "scout for zombie code in current directory"
+    option :format, default: 'report'
     def scout(*globs)
       mission = Mission.new(globs)
       report = mission.scout.sort_by { |z| -z[:flog_score] }
-      total_flog_score = report.map { |z| z[:flog_score] }.reduce(:+)
 
-      puts "Scouted #{mission.defined_method_count} methods in #{mission.source_count} files, in #{mission.duration} seconds."
-      puts "Found #{report.size} potential zombies, with a combined flog score of #{total_flog_score.round(1)}."
-      puts
+      if options[:format] == 'report'
+        total_flog_score = report.map { |z| z[:flog_score] }.reduce(:+)
 
-      report.each do |zombie|
-        puts [zombie[:location], zombie[:name], zombie[:flog_score]] * "\t"
+        puts "Scouted #{mission.defined_method_count} methods in #{mission.source_count} files, in #{mission.duration} seconds."
+        puts "Found #{report.size} potential zombies, with a combined flog score of #{total_flog_score.round(1)}."
+        puts
+
+        report.each do |zombie|
+          puts [zombie[:location], zombie[:name], zombie[:flog_score]] * "\t"
+        end
+      elsif options[:format] == 'csv'
+        require 'csv'
+        CSV do |csv|
+          csv << %w(location name flog_score)
+          report.each do |zombie|
+            csv << [zombie[:location], zombie[:name], zombie[:flog_score]]
+          end
+        end
       end
     end
   end

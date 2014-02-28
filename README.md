@@ -103,7 +103,7 @@ Or you can run it on a given file or glob:
 * [x] parse for attr_reader/writer/accessors, & forwardables, & rails scopes
 * [ ] parse for rails delegators
 * [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
-* [ ] option for CSV output
+* [x] option for CSV output
 
 ToThinkAbouts:
 * [x] extract a hash-y report structure that can be used by whatever, from the default report
