@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'zombie_scout/method_finder'
+require 'zombie_scout/parser'
 
-describe ZombieScout::MethodFinder, '#find_methods' do
+describe ZombieScout::Parser, '#find_methods' do
   let(:ruby_source) {
     double(:ruby_source, path: 'lib/fizzbuzz.rb', source: ruby_code)
   }
   let(:zombies) {
-    ZombieScout::MethodFinder.new(ruby_source).find_methods.sort_by(&:name)
+    ZombieScout::Parser.new(ruby_source).find_methods.sort_by(&:name)
   }
 
   context 'when a ruby file has instance or class methods' do

@@ -1,5 +1,5 @@
 require 'zombie_scout/ruby_project'
-require 'zombie_scout/method_finder'
+require 'zombie_scout/parser'
 require 'zombie_scout/method_call_finder'
 
 module ZombieScout
@@ -30,7 +30,7 @@ module ZombieScout
 
     def methods
       @methods ||= sources.map { |ruby_source|
-        MethodFinder.new(ruby_source).find_methods
+        ZombieScout::Parser.new(ruby_source).find_methods
       }.flatten
     end
 

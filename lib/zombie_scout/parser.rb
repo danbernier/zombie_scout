@@ -3,12 +3,12 @@ require 'parser/current'
 module ZombieScout
   Method = Class.new(Struct.new(:name, :location))
 
-  class MethodFinder < Parser::AST::Processor
+  class Parser < Parser::AST::Processor
     def initialize(ruby_source)
       @ruby_source = ruby_source
       @methods = []
       @private_method_calls = []
-      node = Parser::CurrentRuby.parse(@ruby_source.source)
+      node = ::Parser::CurrentRuby.parse(@ruby_source.source)
       process(node)
     end
 
