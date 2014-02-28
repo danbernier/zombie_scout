@@ -4,9 +4,12 @@ module ZombieScout
   Method = Class.new(Struct.new(:name, :location))
 
   class Parser < Parser::AST::Processor
+    attr_reader :called_methods
+
     def initialize(ruby_source)
       @ruby_source = ruby_source
       @defined_methods = []
+      @called_methods = []
       @private_method_calls = []
       node = ::Parser::CurrentRuby.parse(@ruby_source.source)
       process(node)
@@ -38,6 +41,7 @@ module ZombieScout
         @private_method_calls << method_name
         process_all(args)
       end
+      @called_methods << method_name
     end
 
     private
