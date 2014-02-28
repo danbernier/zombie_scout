@@ -16,7 +16,7 @@ module ZombieScout
       flog = Flog.new(methods: true, quiet: true, score:false)
       all_scores = flog.flog(zombie_path)
       method_locations = flog.instance_variable_get(:@method_locations)
-      scores = all_scores.fetch(method_locations.invert.fetch(@zombie_location))
+      scores = all_scores.fetch(method_locations.invert.fetch(@zombie_location, {}), {})  # default to {} in case there is no score. (it's a 0)
       flog.score_method(scores)
     end
 
