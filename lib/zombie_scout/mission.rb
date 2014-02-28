@@ -10,11 +10,14 @@ module ZombieScout
     end
 
     def scout
+      start_time = Time.now
       zombies.each do |zombie|
         puts [zombie.location, zombie.name] * "\t"
       end
+      duration = Time.now - start_time
 
-      puts "Scouted #{methods.size} methods in #{sources.size} files. Found #{zombies.size} potential zombies."
+      puts "Scouted #{methods.size} methods in #{sources.size} files, in #{duration}."
+      puts "Found #{zombies.size} potential zombies."
     end
 
     private
