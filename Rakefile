@@ -5,8 +5,6 @@ RSpec::Core::RakeTask.new
 
 task :default => :spec
 
-task :install_here do
-  run = ->(cmd) { puts cmd; `#{cmd}` }
-  run['gem build zombie_scout.gemspec']
-  run['gem install zombie_scout-*.gem']
+task :console do
+  sh('irb -I lib -r zombie_scout')
 end
