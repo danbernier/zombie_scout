@@ -150,10 +150,14 @@ describe ZombieScout::MethodFinder, '#find_methods' do
          def magick_helper
            'magick sauce'
          end
+
+         def other_helper
+           'boo'
+         end
       end"
     }
     it 'excludes private method calls, since we KNOW they are called' do
-      expect(zombies.map(&:name)).to match_array([:fizz])
+      expect(zombies.map(&:name)).to match_array([:fizz, :other_helper])
       expect(zombies.map(&:name)).not_to include :magick_helper
     end
   end
