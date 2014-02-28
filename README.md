@@ -14,7 +14,26 @@ parses your code to find method declarations, and then greps through your
 project's source, looking for each method.  If Zombie Scout can't find any
 calls to a method, it presumes the method is dead, and reports back to you.
 
-### Fair Warning
+### How Does It Work?
+
+#### Phase 1: Parse
+
+Zombie Scout parses your ruby files, and remembers all the methods it sees
+defined.
+
+#### Phase 2: Grep
+
+Then it greps your whole project - currently *.rb and *.erb files - for
+whole-word occurrances of any of the methods it found. The whole-word grep
+(`grep -w`) means that searching for `dead_method` won't count `dead_methods`
+as a match, and accidentally think it's live.
+
+So, if you have 1,000 methods, you have to run 1,000 greps? That's slow, right?
+Good news: back in Phase 1, when Zombie Scout parsed your code, it also
+remembered all the method CALLS it saw, and it automatically counts those
+methods as not-zombies, so it saves a bunch of time by not grepping for them.
+
+#### Fair Warning
 
 Zombie Scout isn't exhaustive or thorough - it's a scout, not a spy. (That
 could be another project, though - a Zombie Spy.)
