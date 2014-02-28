@@ -10,12 +10,12 @@ Gem::Specification.new do |s|
 
   s.summary     = "Find dead methods in your Ruby app"
   s.description = "
-      zombie_scout finds methods in classes in your ruby project, 
-      and then searches for calls to them, and tells you which ones 
+      zombie_scout finds methods in classes in your ruby project,
+      and then searches for calls to them, and tells you which ones
       are never called.".strip.gsub(/^\s*/, '')
   s.homepage    = 'https://github.com/danbernier/zombie_scout'
   s.license     = 'ASL2'
-      
+
   s.authors     = ["Dan Bernier"]
   s.email       = ['danbernier@gmail.com']
 
