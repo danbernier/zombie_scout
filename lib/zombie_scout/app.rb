@@ -7,7 +7,7 @@ module ZombieScout
     def scout(*globs)
       start_time = Time.now
       mission = Mission.new(globs)
-      report = mission.scout
+      report = mission.scout.sort_by { |z| -z[:flog_score] }
       report.each do |zombie|
         puts [zombie[:location], zombie[:name], zombie[:flog_score]] * "\t"
       end
