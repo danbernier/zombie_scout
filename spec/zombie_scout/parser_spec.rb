@@ -8,7 +8,7 @@ describe ZombieScout::Parser do
 
   describe '#called_methods' do
     let(:called_methods) {
-      ZombieScout::Parser.new(ruby_source).called_methods.sort
+      ZombieScout::Parser.new(ruby_source).called_methods
     }
     context 'when a ruby file has code that calls methods' do
       let(:ruby_code) {
@@ -20,7 +20,7 @@ describe ZombieScout::Parser do
          end"
       }
       it 'can find the called methods' do
-        expect(called_methods).to eq %i(play_tunes turn_up_amps)
+        expect(called_methods).to match_array %i(play_tunes turn_up_amps)
       end
     end
   end
@@ -59,7 +59,7 @@ describe ZombieScout::Parser do
          end"
         }
         it 'can find attr_readers' do
-          expect(defined_methods.map(&:name)).to eq(%i[author title])
+          expect(defined_methods.map(&:name)).to match_array(%i[author title])
         end
       end
       context "when they're declare with a splat from an array of symbols" do
@@ -83,7 +83,7 @@ describe ZombieScout::Parser do
          end"
         }
         it 'can find attr_writers' do
-          expect(defined_methods.map(&:name)).to eq(%i[author= title=])
+          expect(defined_methods.map(&:name)).to match_array(%i[author= title=])
         end
       end
       context "when they're declare with a splat from an array of symbols" do
@@ -107,7 +107,7 @@ describe ZombieScout::Parser do
          end"
         }
         it 'can find attr_accessors' do
-          expect(defined_methods.map(&:name)).to eq(%i[author author= title title=])
+          expect(defined_methods.map(&:name)).to match_array(%i[author author= title title=])
         end
       end
       context "when they're declare with a splat from an array of symbols" do
@@ -143,7 +143,7 @@ describe ZombieScout::Parser do
        end"
       }
       it 'can find methods created by def_delegators' do
-        expect(defined_methods.map(&:name)).to eq(%i[<< map size])
+        expect(defined_methods.map(&:name)).to match_array(%i[<< map size])
       end
     end
 
@@ -155,7 +155,7 @@ describe ZombieScout::Parser do
        end"
       }
       it 'can find scopes' do
-        expect(defined_methods.map(&:name)).to eq(%i[draft published])
+        expect(defined_methods.map(&:name)).to match_array(%i[draft published])
       end
     end
 
