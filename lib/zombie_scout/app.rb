@@ -10,7 +10,7 @@ module ZombieScout
       report = mission.scout.sort_by { |z| -z[:flog_score] }
 
       if options[:format] == 'report'
-        total_flog_score = report.map { |z| z[:flog_score] }.reduce(:+)
+        total_flog_score = report.map { |z| z[:flog_score] }.reduce(0, :+)
 
         puts "Scouted #{mission.defined_method_count} methods in #{mission.source_count} files, in #{mission.duration} seconds."
         puts "Found #{report.size} potential zombies, with a combined flog score of #{total_flog_score.round(1)}."
