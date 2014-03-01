@@ -76,23 +76,69 @@ Or, add this to your Gemfile:
 
 ## Usage
 
+### From the Command Line
+
 You can run it on a whole folder:
 
     dan@aleph:~/projects/zombie_scout$ zombie_scout scout
-    Scouting out /home/dan/projects/zombie_scout!
-    lib/zombie_scout/method_finder.rb:23    on_def
-    lib/zombie_scout/method_finder.rb:29    on_defs
-    lib/zombie_scout/method_finder.rb:35    on_send
-    lib/zombie_scout/method_finder.rb:77    on_sym
-    Scouted 23 methods in 8 files. Found 4 potential zombies.
+    Scouted 43 methods in 9 files, in 1.096459054 seconds.
+    Found 11 potential zombies, with a combined flog score of 51.5.
+
+    lib/zombie_scout/parser.rb:29   on_send 8.3
+    lib/zombie_scout/parser.rb:23   on_defs 5.9
+    lib/zombie_scout/parser.rb:65   handle_def_delegators   5.8
+    lib/zombie_scout/parser.rb:56   handle_attr_accessor    5.6
+    lib/zombie_scout/parser.rb:17   on_def  4.9
+    lib/zombie_scout/parser.rb:48   handle_attr_writer      4.3
+    lib/zombie_scout/parser.rb:40   handle_attr_reader      4.3
+    lib/zombie_scout/parser.rb:73   handle_def_delegator    3.8
+    lib/zombie_scout/parser.rb:79   handle_scope    3.8
+    lib/zombie_scout/parser.rb:100  on_sym  2.4
+    lib/zombie_scout/mission.rb:34  zombie_count    2.4
 
 (See what I meant about callbacks and false-positives?)
 
 Or you can run it on a given file or glob:
 
-    dan@aleph:~/projects/zombie_scout$ zombie_scout scout lib/zombie_scout.rb
-    Scouting out /home/dan/projects/zombie_scout!
-    Scouted 0 methods in 1 files. Found 0 potential zombies.
+    dan@aleph:~/projects/zombie_scout$ zombie_scout scout lib/app.rb
+    Scouted 1 methods in 1 files, in 0.041942649 seconds.
+    Found 0 potential zombies, with a combined flog score of 0.0.
+
+ZombieScout will also report in CSV, if you like:
+
+    dan@aleph:~/projects/zombie_scout$ zombie_scout scout --format csv
+    location,name,flog_score
+    lib/zombie_scout/parser.rb:29,on_send,8.3
+    lib/zombie_scout/parser.rb:23,on_defs,5.9
+    lib/zombie_scout/parser.rb:65,handle_def_delegators,5.8
+    lib/zombie_scout/parser.rb:56,handle_attr_accessor,5.6
+    lib/zombie_scout/parser.rb:17,on_def,4.9
+    lib/zombie_scout/parser.rb:48,handle_attr_writer,4.3
+    lib/zombie_scout/parser.rb:40,handle_attr_reader,4.3
+    lib/zombie_scout/parser.rb:73,handle_def_delegator,3.8
+    lib/zombie_scout/parser.rb:79,handle_scope,3.8
+    lib/zombie_scout/parser.rb:100,on_sym,2.4
+    lib/zombie_scout/mission.rb:34,zombie_count,2.4
+
+### In Ruby
+
+You can also embed ZombieScout in your own code, if you need that kind of
+thing:
+
+    irb> require 'zombie_scout'
+     => true
+    irb> require 'pp'
+     => true
+    irb> > pp ZombieScout::Mission.new('.').scout
+    [{:location=>"./lib/zombie_scout/parser.rb:17",
+      :name=>:on_def,
+      :flog_score=>4.9},
+     {:location=>"./lib/zombie_scout/parser.rb:23",
+      :name=>:on_defs,
+      :flog_score=>5.9},
+     {:location=>"./lib/zombie_scout/parser.rb:29",
+      :name=>:on_send,
+      :flog_score=>8.3}, ...]
 
 ## Code Status
 
