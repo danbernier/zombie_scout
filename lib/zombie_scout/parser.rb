@@ -1,7 +1,7 @@
 require 'parser/current'
 
 module ZombieScout
-  Method = Class.new(Struct.new(:name, :location))
+  Method = Class.new(Struct.new(:name, :full_name, :location))
 
   class Parser < Parser::AST::Processor
     attr_reader :defined_methods, :called_methods
@@ -10,8 +10,25 @@ module ZombieScout
       @ruby_source = ruby_source
       @defined_methods = []
       @called_methods = []
+      @class_module_stack = []
       node = ::Parser::CurrentRuby.parse(@ruby_source.source)
       process(node)
+    end
+
+    def on_class(node)
+      classname_const, superclass, body = *node
+      classname = ConstExtracter.new.process(classname_const)
+      @class_module_stack.push(classname)
+      process(body)
+      @class_module_stack.pop
+    end
+
+    def on_module(node)
+      modulename_const, body = *node
+      modulename = ConstExtracter.new.process(modulename_const)
+      @class_module_stack.push(modulename)
+      process(body)
+      @class_module_stack.pop
     end
 
     def on_def(node)
@@ -92,13 +109,20 @@ module ZombieScout
     def stash_method(method_name, node)
       line_number = node.location.line
       location = [@ruby_source.path, line_number].join(":")
-      @defined_methods << Method.new(method_name, location)
+      full_name = [@class_module_stack.join('::'), '#', method_name].join('')
+      @defined_methods << Method.new(method_name, full_name, location)
     end
   end
 
   class SymbolExtracter < ::Parser::AST::Processor
     def on_sym(node)
       node.to_a[0]
+    end
+  end
+
+  class ConstExtracter < ::Parser::AST::Processor
+    def on_const(node)
+      node.to_a[1]
     end
   end
 end

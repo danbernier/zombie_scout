@@ -2,8 +2,9 @@ require 'spec_helper'
 require 'zombie_scout/parser'
 
 describe ZombieScout::Parser do
+  let(:file_name) { 'lib/fizzbuzz.rb' }
   let(:ruby_source) {
-    double(:ruby_source, path: 'lib/fizzbuzz.rb', source: ruby_code)
+    double(:ruby_source, path: file_name, source: ruby_code)
   }
 
   describe '#called_methods' do
@@ -42,12 +43,67 @@ describe ZombieScout::Parser do
          end"
       }
 
-      it 'can find the methods' do
+      it 'can find the methods, and the class and file they belong to' do
+        expect(defined_methods.size).to eq 2
+
         expect(defined_methods[0].name).to eq :buzz
+        expect(defined_methods[0].full_name).to eq 'FizzBuzz#buzz'
         expect(defined_methods[0].location).to eq 'lib/fizzbuzz.rb:6'
 
         expect(defined_methods[1].name).to eq :fizz
+        expect(defined_methods[1].full_name).to eq 'FizzBuzz#fizz'
         expect(defined_methods[1].location).to eq 'lib/fizzbuzz.rb:2'
+      end
+    end
+
+    context 'when a ruby file has methods in a module' do
+      let(:file_name) { 'fizz.rb' }
+      let(:ruby_code) {
+        "module Fizz
+           def berries
+             'fizz berries?'
+           end
+         end"
+      }
+      it 'can find the methods, and the module they belong to' do
+        expect(defined_methods.size).to eq 1
+        expect(defined_methods[0].name).to eq :berries
+        expect(defined_methods[0].full_name).to eq 'Fizz#berries'
+        expect(defined_methods[0].location).to eq 'fizz.rb:2'
+      end
+    end
+
+    context 'when a ruby file has a class nested in a module' do
+      let(:file_name) { 'zombie.rb' }
+      let(:ruby_code) {
+        "module Zombie
+           class Report
+             def info
+               'all clear!'
+             end
+           end
+         end"
+      }
+      it 'will record the nesting in the classname' do
+        expect(defined_methods.size).to eq 1
+        expect(defined_methods[0].name).to eq :info
+        expect(defined_methods[0].full_name).to eq 'Zombie::Report#info'
+        expect(defined_methods[0].location).to eq 'zombie.rb:3'
+      end
+    end
+
+    context 'when a ruby file has a class nested in another class' do
+      let(:ruby_code) {
+        "class Person
+           class Address
+             def street
+               '123 main'
+             end
+           end
+         end"
+      }
+      it 'will record the nesting in the classname' do
+        expect(defined_methods[0].full_name).to eq 'Person::Address#street'
       end
     end
 
