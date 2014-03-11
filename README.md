@@ -150,6 +150,7 @@ thing:
 * [ ] parse for rails delegators
 * [ ] let users configure: files to search for methods, files to search for calls...probably in `.zombie_scout`.
 * [x] option for CSV output
+* [ ] if 2 classes have a method w/ the same name, you can't tell (right now, easily) whether it's dead - so don't grep for it.
 
 ToThinkAbouts:
 * [x] extract a hash-y report structure that can be used by whatever, from the default report
