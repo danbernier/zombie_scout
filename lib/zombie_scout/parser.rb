@@ -1,8 +1,7 @@
 require 'parser/current'
+require 'zombie_scout/method'
 
 module ZombieScout
-  Method = Class.new(Struct.new(:name, :full_name, :location))
-
   class Parser < Parser::AST::Processor
     attr_reader :defined_methods, :called_methods
 
@@ -108,9 +107,8 @@ module ZombieScout
 
     def stash_method(method_name, node)
       line_number = node.location.line
-      location = [@ruby_source.path, line_number].join(":")
-      full_name = [@class_module_stack.join('::'), '#', method_name].join('')
-      @defined_methods << Method.new(method_name, full_name, location)
+      class_name = @class_module_stack.join('::')
+      @defined_methods << Method.new(method_name, class_name, @ruby_source.path, line_number)
     end
   end
 
