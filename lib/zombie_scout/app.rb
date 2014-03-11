@@ -4,7 +4,7 @@ require 'zombie_scout/mission'
 module ZombieScout
   class App < Thor
     desc "scout", "scout for zombie code in current directory"
-    option :format, default: 'report'
+    option :format, enum: %w(report csv), default: 'report'
     def scout(*globs)
       mission = Mission.new(globs)
       report = mission.scout.sort_by { |z| -z[:flog_score] }
