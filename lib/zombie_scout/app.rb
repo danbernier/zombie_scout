@@ -17,14 +17,14 @@ module ZombieScout
         puts
 
         report.each do |zombie|
-          puts [zombie[:location], zombie[:name], zombie[:flog_score]] * "\t"
+          puts [zombie[:location], zombie[:full_name], zombie[:flog_score]] * "\t"
         end
       elsif options[:format] == 'csv'
         require 'csv'
         CSV do |csv|
           csv << %w(location name flog_score)
           report.each do |zombie|
-            csv << [zombie[:location], zombie[:name], zombie[:flog_score]]
+            csv << [zombie[:location], zombie[:full_name], zombie[:flog_score]]
           end
         end
       end

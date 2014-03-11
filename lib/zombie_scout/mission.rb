@@ -16,6 +16,7 @@ module ZombieScout
       zombies.map { |zombie|
         { location: zombie.location,
           name: zombie.name,
+          full_name: zombie.full_name,
           flog_score: flog_score(zombie.location)
         }
       }.tap {
