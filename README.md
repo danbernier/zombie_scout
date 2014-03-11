@@ -81,20 +81,22 @@ Or, add this to your Gemfile:
 You can run it on a whole folder:
 
     dan@aleph:~/projects/zombie_scout$ zombie_scout scout
-    Scouted 43 methods in 9 files, in 1.096459054 seconds.
-    Found 11 potential zombies, with a combined flog score of 51.5.
+    Scouted 48 methods in 10 files, in 1.470468836 seconds.
+    Found 13 potential zombies, with a combined flog score of 66.9.
 
-    lib/zombie_scout/parser.rb:29   on_send 8.3
-    lib/zombie_scout/parser.rb:23   on_defs 5.9
-    lib/zombie_scout/parser.rb:65   handle_def_delegators   5.8
-    lib/zombie_scout/parser.rb:56   handle_attr_accessor    5.6
-    lib/zombie_scout/parser.rb:17   on_def  4.9
-    lib/zombie_scout/parser.rb:48   handle_attr_writer      4.3
-    lib/zombie_scout/parser.rb:40   handle_attr_reader      4.3
-    lib/zombie_scout/parser.rb:73   handle_def_delegator    3.8
-    lib/zombie_scout/parser.rb:79   handle_scope    3.8
-    lib/zombie_scout/parser.rb:100  on_sym  2.4
-    lib/zombie_scout/mission.rb:34  zombie_count    2.4
+    lib/zombie_scout/parser.rb:45   ZombieScout::Parser#on_send     8.3
+    lib/zombie_scout/parser.rb:17   ZombieScout::Parser#on_class    7.9
+    lib/zombie_scout/parser.rb:25   ZombieScout::Parser#on_module   7.2
+    lib/zombie_scout/parser.rb:39   ZombieScout::Parser#on_defs     5.9
+    lib/zombie_scout/parser.rb:81   ZombieScout::Parser#handle_def_delegators       5.8
+    lib/zombie_scout/parser.rb:72   ZombieScout::Parser#handle_attr_accessor        5.6
+    lib/zombie_scout/parser.rb:33   ZombieScout::Parser#on_def      4.9
+    lib/zombie_scout/parser.rb:56   ZombieScout::Parser#handle_attr_reader  4.3
+    lib/zombie_scout/parser.rb:64   ZombieScout::Parser#handle_attr_writer  4.3
+    lib/zombie_scout/parser.rb:89   ZombieScout::Parser#handle_def_delegator        3.8
+    lib/zombie_scout/parser.rb:95   ZombieScout::Parser#handle_scope        3.8
+    lib/zombie_scout/parser.rb:122  ZombieScout::ConstExtracter#on_const    2.7
+    lib/zombie_scout/parser.rb:116  ZombieScout::SymbolExtracter#on_sym     2.4
 
 (See what I meant about callbacks and false-positives?)
 
@@ -108,17 +110,19 @@ ZombieScout will also report in CSV, if you like:
 
     dan@aleph:~/projects/zombie_scout$ zombie_scout scout --format csv
     location,name,flog_score
-    lib/zombie_scout/parser.rb:29,on_send,8.3
-    lib/zombie_scout/parser.rb:23,on_defs,5.9
-    lib/zombie_scout/parser.rb:65,handle_def_delegators,5.8
-    lib/zombie_scout/parser.rb:56,handle_attr_accessor,5.6
-    lib/zombie_scout/parser.rb:17,on_def,4.9
-    lib/zombie_scout/parser.rb:48,handle_attr_writer,4.3
-    lib/zombie_scout/parser.rb:40,handle_attr_reader,4.3
-    lib/zombie_scout/parser.rb:73,handle_def_delegator,3.8
-    lib/zombie_scout/parser.rb:79,handle_scope,3.8
-    lib/zombie_scout/parser.rb:100,on_sym,2.4
-    lib/zombie_scout/mission.rb:34,zombie_count,2.4
+    lib/zombie_scout/parser.rb:45,ZombieScout::Parser#on_send,8.3
+    lib/zombie_scout/parser.rb:17,ZombieScout::Parser#on_class,7.9
+    lib/zombie_scout/parser.rb:25,ZombieScout::Parser#on_module,7.2
+    lib/zombie_scout/parser.rb:39,ZombieScout::Parser#on_defs,5.9
+    lib/zombie_scout/parser.rb:81,ZombieScout::Parser#handle_def_delegators,5.8
+    lib/zombie_scout/parser.rb:72,ZombieScout::Parser#handle_attr_accessor,5.6
+    lib/zombie_scout/parser.rb:33,ZombieScout::Parser#on_def,4.9
+    lib/zombie_scout/parser.rb:56,ZombieScout::Parser#handle_attr_reader,4.3
+    lib/zombie_scout/parser.rb:64,ZombieScout::Parser#handle_attr_writer,4.3
+    lib/zombie_scout/parser.rb:89,ZombieScout::Parser#handle_def_delegator,3.8
+    lib/zombie_scout/parser.rb:95,ZombieScout::Parser#handle_scope,3.8
+    lib/zombie_scout/parser.rb:122,ZombieScout::ConstExtracter#on_const,2.7
+    lib/zombie_scout/parser.rb:116,ZombieScout::SymbolExtracter#on_sym,2.4
 
 ### In Ruby
 
@@ -131,14 +135,20 @@ thing:
      => true
     irb> > pp ZombieScout::Mission.new('.').scout
     [{:location=>"./lib/zombie_scout/parser.rb:17",
+      :file_path=>"./lib/zombie_scout/parser.rb",
+      :name=>:on_class,
+      :full_name=>"ZombieScout::Parser#on_class",
+      :flog_score=>7.9},
+     {:location=>"./lib/zombie_scout/parser.rb:25",
+      :file_path=>"./lib/zombie_scout/parser.rb",
+      :name=>:on_module,
+      :full_name=>"ZombieScout::Parser#on_module",
+      :flog_score=>7.2},
+     {:location=>"./lib/zombie_scout/parser.rb:33",
+      :file_path=>"./lib/zombie_scout/parser.rb",
       :name=>:on_def,
-      :flog_score=>4.9},
-     {:location=>"./lib/zombie_scout/parser.rb:23",
-      :name=>:on_defs,
-      :flog_score=>5.9},
-     {:location=>"./lib/zombie_scout/parser.rb:29",
-      :name=>:on_send,
-      :flog_score=>8.3}, ...]
+      :full_name=>"ZombieScout::Parser#on_def",
+      :flog_score=>4.9}, ...]
 
 ## Code Status
 
