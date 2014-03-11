@@ -7,7 +7,7 @@ module ZombieScout
     option :format, enum: %w(report csv), default: 'report'
     def scout(*globs)
       mission = Mission.new(globs)
-      report = mission.scout.sort_by { |z| -z[:flog_score] }
+      report = mission.scout.sort_by { |z| [z[:file_path], -z[:flog_score]] }
 
       if options[:format] == 'report'
         total_flog_score = report.map { |z| z[:flog_score] }.reduce(0, :+)

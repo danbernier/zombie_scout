@@ -15,6 +15,7 @@ module ZombieScout
       @start_time = Time.now
       zombies.map { |zombie|
         { location: zombie.location,
+          file_path: zombie.file_path,
           name: zombie.name,
           full_name: zombie.full_name,
           flog_score: flog_score(zombie.location)
