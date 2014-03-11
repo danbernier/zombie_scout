@@ -153,6 +153,7 @@ thing:
 ## Code Status
 
 * [![Build Status](https://travis-ci.org/danbernier/zombie_scout.png?branch=master)](https://travis-ci.org/danbernier/zombie_scout)
+* [![Code Climate](https://codeclimate.com/github/danbernier/zombie_scout.png)](https://codeclimate.com/github/danbernier/zombie_scout)
 
 ## TODOs
 
