@@ -49,4 +49,24 @@ describe ZombieScout::Formatter do
       ])
     end
   end
+
+  context 'for a custom format' do
+    it 'delegates to the new custom format' do
+      eval("
+           class ::ZombieScout::Formatter::CustomFormatter
+             def initialize(mission, report, io)
+               @io = io
+             end
+             def to_s
+               @io.puts 'papercuts'
+             end
+           end
+           ")
+
+      output = capture_output do |out|
+        ZombieScout::Formatter.format('custom', mission, report, out)
+      end
+      expect(output).to eq("papercuts\n")
+    end
+  end
 end
