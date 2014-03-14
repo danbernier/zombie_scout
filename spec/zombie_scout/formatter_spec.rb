@@ -22,9 +22,7 @@ describe ZombieScout::Formatter do
 
   context 'for "report" format' do
     it 'formats it correctly' do
-      output = capture_output do |out|
-        ZombieScout::Formatter.format('report', mission, report, out)
-      end
+      output = ZombieScout::Formatter.format('report', mission, report)
 
       expect(output).to include "Scouted 123 methods in 97 files"
       expect(output).to include "in 55 seconds"
@@ -37,9 +35,7 @@ describe ZombieScout::Formatter do
 
   context 'for "csv" format' do
     it 'formats it correctly' do
-      output = capture_output do |out|
-        ZombieScout::Formatter.format('csv', mission, report, out)
-      end
+      output = ZombieScout::Formatter.format('csv', mission, report)
 
       lines = output.split("\n").map(&:chomp)
       expect(lines).to eq([
@@ -54,19 +50,16 @@ describe ZombieScout::Formatter do
     it 'delegates to the new custom format' do
       eval("
            class ::ZombieScout::Formatter::CustomFormatter
-             def initialize(mission, report, io)
-               @io = io
+             def initialize(mission, report)
              end
              def to_s
-               @io.puts 'papercuts'
+               'papercuts'
              end
            end
            ")
 
-      output = capture_output do |out|
-        ZombieScout::Formatter.format('custom', mission, report, out)
-      end
-      expect(output).to eq("papercuts\n")
+      output = ZombieScout::Formatter.format('custom', mission, report)
+      expect(output).to eq('papercuts')
     end
   end
 end

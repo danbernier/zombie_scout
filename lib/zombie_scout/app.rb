@@ -10,7 +10,7 @@ module ZombieScout
       mission = Mission.new(globs)
       report = mission.scout.sort_by { |z| [z[:file_path], -z[:flog_score]] }
 
-      ZombieScout::Formatter.format(options[:format], mission, report)
+      puts ZombieScout::Formatter.format(options[:format], mission, report)
     end
   end
 end
