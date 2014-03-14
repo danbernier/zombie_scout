@@ -45,21 +45,4 @@ describe ZombieScout::Formatter do
       ])
     end
   end
-
-  context 'for a custom format' do
-    it 'delegates to the new custom format' do
-      eval("
-           class ::ZombieScout::Formatter::CustomFormatter
-             def initialize(mission, report)
-             end
-             def to_s
-               'papercuts'
-             end
-           end
-           ")
-
-      output = ZombieScout::Formatter.format('custom', mission, report)
-      expect(output).to eq('papercuts')
-    end
-  end
 end

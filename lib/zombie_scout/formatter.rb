@@ -1,9 +1,12 @@
 module ZombieScout
   module Formatter
     def self.format(format, mission, report)
-      formatter_class_name = "#{format.capitalize}Formatter"
-      formatter_class = const_get(formatter_class_name)
-      formatter_class.new(mission, report).to_s
+      case format
+      when 'report'
+        ReportFormatter.new(mission, report).to_s
+      when 'csv'
+        CsvFormatter.new(mission, report).to_s
+      end
     end
 
     class BaseFormatter
