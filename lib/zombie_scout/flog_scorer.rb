@@ -2,8 +2,9 @@ require 'flog'
 
 module ZombieScout
   class FlogScorer
-    def initialize(zombie_location)
-      @zombie_location = zombie_location
+    def initialize(zombie, flog=nil)
+      @zombie = zombie
+      @flog = flog || Flog.new(methode: true, quiet: true, score: false)
     end
 
     def score
@@ -12,16 +13,19 @@ module ZombieScout
 
     private
 
+    attr_reader :flog
+
     def raw_score
-      flog = Flog.new(methods: true, quiet: true, score:false)
       all_scores = flog.flog(zombie_path)
-      method_locations = flog.instance_variable_get(:@method_locations)
-      scores = all_scores.fetch(method_locations.invert.fetch(@zombie_location, {}), {})  # default to {} in case there is no score. (it's a 0)
+
+      # default to {} in case there is no score. (it's a 0)
+      scores = all_scores.fetch(@zombie.full_name, {})
+
       flog.score_method(scores)
     end
 
     def zombie_path
-      @zombie_location.sub(/\:\d+$/, '')
+      @zombie.location.sub(/\:\d+$/, '')
     end
   end
 end
