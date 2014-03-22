@@ -2,6 +2,8 @@
 *.rbc
 .bundle
 .config
+.zombie_scout
+.zombie_scout_whitelist
 coverage
 InstalledFiles
 lib/bundler/man
