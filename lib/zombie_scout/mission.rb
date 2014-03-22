@@ -74,8 +74,19 @@ module ZombieScout
     end
 
     def might_be_dead?(method)
-      @method_call_counter ||= MethodCallFinder.new(@ruby_project)
-      @method_call_counter.count_calls(method.name) < 2
+      unless whitelisted?(method)
+        @method_call_counter ||= MethodCallFinder.new(@ruby_project)
+        @method_call_counter.count_calls(method.name) < 2
+      end
+    end
+
+    def whitelisted?(method)
+      @whitelist ||= if File.exist?('.zombie_scout_whitelist')
+                       File.read('.zombie_scout_whitelist')
+                     else
+                       []
+                     end
+      @whitelist.include? method.full_name
     end
   end
 end
