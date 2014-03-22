@@ -18,7 +18,7 @@ module ZombieScout
           file_path: zombie.file_path,
           name: zombie.name,
           full_name: zombie.full_name,
-          flog_score: flog_score(zombie.location)
+          flog_score: flog_score(zombie)
         }
       }.tap {
         @end_time = Time.now
@@ -43,8 +43,8 @@ module ZombieScout
       @sources ||= @ruby_project.ruby_sources
     end
 
-    def flog_score(zombie_location)
-      ZombieScout::FlogScorer.new(zombie_location).score
+    def flog_score(zombie)
+      ZombieScout::FlogScorer.new(zombie).score
     end
 
     def zombies
