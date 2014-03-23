@@ -7,7 +7,10 @@ module ZombieScout
 
     def count_calls(method_name)
       method_name = method_name.to_s
-      method_name.sub!(/=$/, ' *=')
+
+      # zero-or-more spaces, =, and NOT a > (so we don't match hashrockets)
+      method_name.sub!(/=$/, ' *=[^>]')
+
       find_occurrances(method_name).size
     end
 
