@@ -51,7 +51,7 @@ module ZombieScout
       return @zombies unless @zombies.nil?
 
       scout!
-      @zombies ||= @defined_methods.select { |method|
+      @zombies = @defined_methods.select { |method|
         might_be_dead?(method)
       }
     end
