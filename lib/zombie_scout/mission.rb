@@ -1,4 +1,5 @@
 require 'zombie_scout/ruby_project'
+require 'zombie_scout/whitelist'
 require 'zombie_scout/parser'
 require 'zombie_scout/method_call_finder'
 require 'zombie_scout/flog_scorer'
@@ -9,6 +10,7 @@ module ZombieScout
 
     def initialize(globs)
       @ruby_project = RubyProject.new(*globs)
+      @whitelist = Whitelist.new
     end
 
     def scout
@@ -81,12 +83,7 @@ module ZombieScout
     end
 
     def whitelisted?(method)
-      @whitelist ||= if File.exist?('.zombie_scout_whitelist')
-                       File.read('.zombie_scout_whitelist')
-                     else
-                       []
-                     end
-      @whitelist.include? method.full_name
+      @whitelist.include?(method.full_name)
     end
   end
 end
