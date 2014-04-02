@@ -1,8 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'parser', '~> 2.1'
-gem 'flog', '~> 4.2'
-gem 'thor', '~> 0.18'
+gemspec
 
 group :test do
   gem 'rake'
