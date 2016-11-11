@@ -24,7 +24,7 @@ module ZombieScout
     end
 
     def includes
-      %w(*.rb *.erb *.rake Rakefile).map { |inc|
+      %w(*.rb *.erb *.haml *.rake Rakefile).map { |inc|
         "--include=\"#{inc}\""
       }.join(' ')
     end

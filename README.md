@@ -23,7 +23,7 @@ defined.
 
 #### Phase 2: Grep
 
-Then it greps your whole project - currently *.rb and *.erb files - for
+Then it greps your whole project - currently *.rb and *.erb *.haml files - for
 whole-word occurrances of any of the methods it found. The whole-word grep
 (`grep -w`) means that searching for `dead_method` won't count `dead_methods`
 as a match, and accidentally think it's live.
