@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    zombie_scout (0.0.5)
+    zombie_scout (0.0.6)
       flog (~> 4.2)
       parser (~> 2.1)
       thor (~> 0.18)
