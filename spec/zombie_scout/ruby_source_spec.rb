@@ -16,11 +16,19 @@ describe ZombieScout::RubySource do
 
   let(:filename) { 'ruby_code.rb' }
 
-  subject do
+  let(:ruby_source) {
     File.open(filename, 'w') { |f| f << ruby_code }
     ZombieScout::RubySource.new(filename)
-  end
+  }
 
-  its(:path) { should eq(filename) }
-  its(:source) { should eq(ruby_code) }
+  describe '#path' do
+    it 'should equal the filename' do
+      expect(ruby_source.path).to eq(filename)
+    end
+  end
+  describe '#source' do
+    it 'should equal the ruby_code' do
+      expect(ruby_source.source).to eq(ruby_code)
+    end
+  end
 end
