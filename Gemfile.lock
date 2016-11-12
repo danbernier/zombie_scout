@@ -42,7 +42,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.5)
+  bundler (~> 1.10)
   fakefs
   rake
   rspec
