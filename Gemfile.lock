@@ -19,7 +19,7 @@ GEM
     parser (2.3.1.4)
       ast (~> 2.2)
     path_expander (1.0.0)
-    rake (11.3.0)
+    rake (13.0.3)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
