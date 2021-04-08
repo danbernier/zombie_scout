@@ -1,7 +1,6 @@
 language: ruby
 rvm:
-  - 2.3
-  - 2.2
-  - 2.1
-  - 2.0
-before_install: gem install bundler  # For ruby 2.1: http://stackoverflow.com/questions/36979283/how-to-fix-travis-error-nomethoderror-undefined-method-spec-for-nilnilclass
+  - 2.5
+  - 2.6
+  - 2.7
+  - 3.0

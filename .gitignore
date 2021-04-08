@@ -14,6 +14,9 @@ test/tmp
 test/version_tmp
 tmp
 
+# We dont want to keep Gemfile.lock for gem libraries
+Gemfile.lock
+
 # YARD artifacts
 .yardoc
 _yardoc
