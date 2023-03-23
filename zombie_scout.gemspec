@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'date'
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'zombie_scout/version'
@@ -24,8 +25,8 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
 
-  s.add_dependency('parser', '~> 2.1')
-  s.add_dependency('thor', '~> 0.18')
-  s.add_dependency('flog', '~> 4.2')
-  s.add_development_dependency "bundler", "~> 1.10"
+  s.add_dependency('parser')
+  s.add_dependency('thor')
+  s.add_dependency('flog')
+  s.add_development_dependency "bundler"
 end
